@@ -5,10 +5,12 @@ dotenv.config();
 
 import * as TypeOrmConfig from '@src/conf/typeorm.config';
 import { UserModule } from './apis/users/user.module';
+import { AuthModule } from './apis/auth/auth.module';
 
 @Module({
   imports: [
     UserModule, //
+    AuthModule,
 
     TypeOrmModule.forRoot({
       ...TypeOrmConfig,

@@ -1,7 +1,7 @@
 import { OmitType } from '@nestjs/swagger';
-import { UserSignInInputDto } from './userSingin.input.dto';
+import { UserSignUpInputDto } from './userSignup.input.dto';
 
-export class UserSignInOutputDto extends OmitType(UserSignInInputDto, [
+export class UserSignUpOutputDto extends OmitType(UserSignUpInputDto, [
   'password',
 ]) {
   readonly email: string;
@@ -10,7 +10,7 @@ export class UserSignInOutputDto extends OmitType(UserSignInInputDto, [
   readonly zipcode: string;
   readonly address: string;
   readonly addressDetail: string;
-  constructor(data: UserSignInInputDto) {
+  constructor(data: UserSignUpInputDto) {
     super();
     this.email = data.email;
     this.name = data.name;

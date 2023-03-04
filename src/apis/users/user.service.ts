@@ -6,12 +6,13 @@ import {
 
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserSignInInputDto } from './dto/signin/userSingin.input.dto';
-import { UserSignInOutputDto } from './dto/signin/userSingin.output.dto';
 import { User } from './entities/user.entity';
 import { UserAddress } from './entities/userAddress.entity';
 import { UserProfile } from './entities/userProfile.entity';
 import * as bcrypt from 'bcrypt';
+
+import { UserSignUpOutputDto } from './dto/signup/userSignup.output.dto';
+import { UserSignUpInputDto } from './dto/signup/userSignup.input.dto';
 
 @Injectable()
 export class UserService {
@@ -23,12 +24,15 @@ export class UserService {
     @InjectRepository(UserProfile)
     private readonly userProfileRepository: Repository<UserProfile>,
   ) {}
-  async finduser() {
-    return await this.userRepository.find();
+
+  async findUser({ email }) {
+    return await this.userRepository.findOne({
+      where: { email },
+    });
   }
 
   // 트랜잭션 추가하기 ----
-  async signin(userSignInInputDto: UserSignInInputDto) {
+  async signup(userSignUpInputDto: UserSignUpInputDto) {
     const {
       email,
       name,
@@ -37,7 +41,7 @@ export class UserService {
       zipcode,
       address,
       addressDetail,
-    } = userSignInInputDto;
+    } = userSignUpInputDto;
 
     // 유효성 검사
     this.checkValidateEmail({ email });
@@ -68,7 +72,7 @@ export class UserService {
       addressDetail,
     });
 
-    return new UserSignInOutputDto(userSignInInputDto);
+    return new UserSignUpOutputDto(userSignUpInputDto);
   }
 
   // 패스워드 해싱

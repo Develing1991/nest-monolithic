@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class UserSignInInputDto {
+export class UserSignUpInputDto {
   @ApiProperty({
     description: 'useremail@example.com',
   })
