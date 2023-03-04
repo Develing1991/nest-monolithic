@@ -2,10 +2,12 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { GlobalHttpExceptiionFilter } from './commons/filter/globalException.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalFilters(new GlobalHttpExceptiionFilter());
   app.enableCors({
     //corsOptions
   });
@@ -14,8 +16,7 @@ async function bootstrap() {
     .setTitle('my example')
     .setDescription('The cats API description')
     .setVersion('1.0')
-    // .addBearerAuth()
-
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);

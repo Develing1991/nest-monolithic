@@ -1,6 +1,22 @@
-import { Body, Controller, Param, Post, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Request,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiConsumes,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
+import { CurrentUser } from '@src/commons/decorators/currentUser.decorator';
 import { UserSignUpInputDto } from './dto/signup/userSignup.input.dto';
 import { UserEmailInputDto } from './dto/validate/userEmail.input.dto';
 
@@ -29,6 +45,17 @@ export class UserController {
     console.log(email);
 
     return this.userService.checkDuplicatedEmail({ email });
+  }
+
+  @Get('/test')
+  @UseGuards(AuthGuard('myGuard'))
+  @ApiBearerAuth()
+  @ApiOperation({ summary: '가드테스트' })
+  fetchUser(@CurrentUser() user) {
+    console.log(user);
+
+    console.log('fetchuser되나?');
+    return 'fsdfss';
   }
 
   //   @Get('/')

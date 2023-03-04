@@ -6,6 +6,7 @@ dotenv.config();
 import * as TypeOrmConfig from '@src/conf/typeorm.config';
 import { UserModule } from './apis/users/user.module';
 import { AuthModule } from './apis/auth/auth.module';
+import { JwtAccessStrategy } from './commons/strategies/jwt-access.strategy';
 
 @Module({
   imports: [
@@ -17,5 +18,6 @@ import { AuthModule } from './apis/auth/auth.module';
       entities: [__dirname + '/apis/**/*.entity.*'],
     }),
   ],
+  providers: [JwtAccessStrategy],
 })
 export class AppModule {}
