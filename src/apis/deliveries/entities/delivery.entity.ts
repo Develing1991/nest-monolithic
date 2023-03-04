@@ -23,7 +23,6 @@ export class Delivery {
   id: string;
 
   @Column({
-    name: 'delivery_status',
     type: 'enum',
     enum: DeliveryStatus,
     default: DeliveryStatus.PENDING,

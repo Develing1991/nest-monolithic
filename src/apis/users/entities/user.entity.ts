@@ -13,6 +13,12 @@ import { UserProfile } from './userProfile.entity';
 import { Favorite } from '@src/apis/favorites/entities/favorite.entity';
 import { Order } from '@src/apis/orders/entities/order.entity';
 
+export enum UserRole {
+  ADMIN = 'admin',
+  CUSTOMER = 'customer',
+  SELLER = 'seller',
+}
+
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
@@ -26,6 +32,13 @@ export class User {
   @Column({ type: 'varchar', length: 50 })
   @IsNotEmpty()
   password: string;
+
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    default: UserRole.CUSTOMER,
+  })
+  userRole: string;
 
   @CreateDateColumn()
   createdAt: Date;
