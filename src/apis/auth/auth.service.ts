@@ -6,10 +6,14 @@ import { AuthSignInOutputDto } from './dto/authSignIn.output.dto';
 @Injectable()
 export class AuthService {
   constructor(private readonly jwtService: JwtService) {}
-  async login({ user, password }) {
+  async login({ user, password, res }) {
     // 회원 검증
     await this.exactUser({ password, user });
 
+    // refresh 토큰
+    this.setRefreshToken({ user, res });
+
+    // access 토큰
     return this.getAccessToken({ user });
   }
 
@@ -25,18 +29,44 @@ export class AuthService {
     }
   }
 
-  // 토큰
-  getAccessToken({ user }) {
-    const accessToken = this.jwtService.sign(
+  // access 토큰
+  async getAccessToken({ user }) {
+    const accessToken = await this.createToken({
+      user,
+      type: 'access',
+      res: null,
+    });
+    return new AuthSignInOutputDto(accessToken);
+  }
+
+  // refresh 토큰
+  setRefreshToken({ user, res }) {
+    this.createToken({ user, type: 'refresh', res });
+  }
+
+  async createToken({ user, type, res }) {
+    const token = await this.jwtService.sign(
       {
         email: user.email, //
         sub: user.id,
       },
       {
-        secret: process.env.ACCESSTK_SKEY,
-        expiresIn: process.env.ACCESSTK_EXPR,
+        secret:
+          type === 'access'
+            ? process.env.ACCESSTK_SKEY
+            : process.env.REFRSHTK_SKEY,
+        expiresIn:
+          type === 'access'
+            ? process.env.ACCESSTK_EXPR
+            : process.env.REFRSHTK_EXPR,
       },
     );
-    return new AuthSignInOutputDto(accessToken, '');
+
+    if (type === 'refresh') {
+      // 개발
+      res.cookie('refreshToken', token, { path: '/' });
+      return;
+    }
+    return token;
   }
 }

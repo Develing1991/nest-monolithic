@@ -2,9 +2,7 @@ import {
   Body,
   Controller,
   Get,
-  Param,
   Post,
-  Request,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';

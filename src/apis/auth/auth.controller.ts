@@ -1,6 +1,7 @@
-import { Body, Controller, Post, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Post, Res, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Response } from 'express';
 import { UserService } from '../users/user.service';
 import { AuthService } from './auth.service';
 import { AuthSignInInputDto } from './dto/authSignIn.input.dto';
@@ -17,9 +18,12 @@ export class AuthController {
   @ApiOperation({ summary: '로그인' })
   @UseInterceptors(FileInterceptor('file'))
   @ApiConsumes('multipart/form-data')
-  async signin(@Body() { email, password }: AuthSignInInputDto) {
+  async signin(
+    @Body() { email, password }: AuthSignInInputDto,
+    @Res() res: Response,
+  ) {
     const user = await this.userService.findUser({ email });
-
-    return this.authService.login({ user, password });
+    const result = await this.authService.login({ user, password, res });
+    res.send(result);
   }
 }

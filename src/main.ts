@@ -10,6 +10,7 @@ async function bootstrap() {
   app.useGlobalFilters(new GlobalHttpExceptiionFilter());
   app.enableCors({
     //corsOptions
+    origin: 'http://localhost:3000',
   });
 
   const options = new DocumentBuilder()
