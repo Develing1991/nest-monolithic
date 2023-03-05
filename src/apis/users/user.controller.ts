@@ -32,6 +32,8 @@ export class UserController {
     return this.userService.checkDuplicatedEmail({ email });
   }
 
+  // 유저 권한 변경
+
   @Get('/test')
   @ApiBearerAuth()
   @ApiOperation({ summary: '가드테스트' })

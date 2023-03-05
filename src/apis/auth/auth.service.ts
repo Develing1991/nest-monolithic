@@ -65,6 +65,13 @@ export class AuthService {
     if (type === 'refresh') {
       // 개발
       res.cookie('refreshToken', token, { path: '/' });
+      // res.cookie('refreshToken', token, {
+      //   path: '/',
+      //   domain: '.front.com',
+      //   SameSite: 'None',
+      //   Secure: true,
+      //   httpOnly: true,
+      // });
       return;
     }
     return token;

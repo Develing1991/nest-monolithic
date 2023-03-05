@@ -18,6 +18,12 @@ export enum UserRole {
   CUSTOMER = 'customer',
   SELLER = 'seller',
 }
+export enum UserProvider {
+  EMAIL = 'email',
+  GOOGLE = 'googler',
+  NAVER = 'naver',
+  KAKAO = 'kakao',
+}
 
 @Entity()
 export class User {
@@ -39,6 +45,13 @@ export class User {
     default: UserRole.CUSTOMER,
   })
   userRole: string;
+
+  @Column({
+    type: 'enum',
+    enum: UserProvider,
+    default: UserProvider.EMAIL,
+  })
+  provider: string;
 
   @CreateDateColumn()
   createdAt: Date;

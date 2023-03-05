@@ -7,7 +7,6 @@ import * as TypeOrmConfig from '@src/conf/typeorm.config';
 import { UserModule } from './apis/users/user.module';
 import { AuthModule } from './apis/auth/auth.module';
 import { JwtAccessStrategy } from './commons/strategies/jwt-access.strategy';
-import { JwtRefreshStrategy } from './commons/strategies/jwt-refresh.strategy';
 
 @Module({
   imports: [
@@ -19,6 +18,6 @@ import { JwtRefreshStrategy } from './commons/strategies/jwt-refresh.strategy';
       entities: [__dirname + '/apis/**/*.entity.*'],
     }),
   ],
-  providers: [JwtAccessStrategy, JwtRefreshStrategy],
+  providers: [JwtAccessStrategy],
 })
 export class AppModule {}
