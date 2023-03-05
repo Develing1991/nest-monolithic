@@ -77,4 +77,4 @@ Nest is [MIT licensed](LICENSE).
 ![image](https://user-images.githubusercontent.com/54789601/222939158-26f528c8-133f-4180-9545-1c094e6f2d17.png)
 
 ## --- 스웨거 테스트 
-![image](https://user-images.githubusercontent.com/54789601/222939253-5d747bf1-1a77-4b2b-acf3-1eed6fefa0fc.png)
+![image](https://user-images.githubusercontent.com/54789601/222939295-b4c38989-dbe7-4046-85e2-1c4d0e5fa360.png)
