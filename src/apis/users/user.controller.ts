@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from '@src/commons/decorators/currentUser.decorator';
+import { Request } from 'express';
 import { UserSignUpInputDto } from './dto/signup/userSignup.input.dto';
 import { UserEmailInputDto } from './dto/validate/userEmail.input.dto';
 
@@ -36,7 +37,11 @@ export class UserController {
   @ApiBearerAuth()
   @ApiOperation({ summary: '가드테스트' })
   @UseGuards(AuthGuard('access'))
-  fetchUser(@CurrentUser() user) {
+  fetchUser(
+    @Req() req: Request, //
+    @CurrentUser() user,
+  ) {
+    // console.log(req.headers);
     console.log('fetchuser되나?');
     return 'fsdfss';
   }
