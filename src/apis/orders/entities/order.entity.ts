@@ -26,7 +26,6 @@ export class Order {
   id: string;
 
   @Column({
-    name: 'order_status',
     type: 'enum',
     enum: OrderStatus,
     default: OrderStatus.PENDING,

@@ -13,6 +13,24 @@ import { UserProfile } from './userProfile.entity';
 import { Favorite } from '@src/apis/favorites/entities/favorite.entity';
 import { Order } from '@src/apis/orders/entities/order.entity';
 
+export enum UserRole {
+  ADMIN = 'admin',
+  CUSTOMER = 'customer',
+  SELLER = 'seller',
+}
+export enum UserProvider {
+  EMAIL = 'email',
+  GOOGLE = 'google',
+  NAVER = 'naver',
+  KAKAO = 'kakao',
+}
+export enum UserProviderPhoneNumber {
+  EMAIL = 'email',
+  GOOGLE = '01000000001',
+  NAVER = '01000000002',
+  KAKAO = '01000000003',
+}
+
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
@@ -23,9 +41,23 @@ export class User {
   @IsNotEmpty()
   email: string;
 
-  @Column({ type: 'varchar', length: 50 })
+  @Column({ type: 'varchar', length: 200 })
   @IsNotEmpty()
   password: string;
+
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    default: UserRole.CUSTOMER,
+  })
+  userRole: string;
+
+  @Column({
+    type: 'enum',
+    enum: UserProvider,
+    default: UserProvider.EMAIL,
+  })
+  provider: string;
 
   @CreateDateColumn()
   createdAt: Date;

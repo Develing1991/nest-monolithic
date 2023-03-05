@@ -21,7 +21,7 @@ export class UserProfile {
   @IsNotEmpty()
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   profileImageUrl: string;
 
   @Column()
