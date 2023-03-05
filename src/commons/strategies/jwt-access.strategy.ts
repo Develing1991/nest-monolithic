@@ -11,7 +11,7 @@ import { Cache } from 'cache-manager';
 @Injectable()
 export class JwtAccessStrategy extends PassportStrategy(Strategy, 'access') {
   private accessToken: string;
-  private refreshToken: string;
+
   constructor(
     @Inject(CACHE_MANAGER)
     private readonly cacheManager: Cache,
@@ -29,7 +29,7 @@ export class JwtAccessStrategy extends PassportStrategy(Strategy, 'access') {
         } else {
           this.accessToken = authorizationHeader.slice(7);
         }
-        this.refreshToken = req.cookies.refreshToken;
+
         return this.accessToken;
       },
       ignoreExpiration: false,
@@ -38,9 +38,8 @@ export class JwtAccessStrategy extends PassportStrategy(Strategy, 'access') {
   }
   async validate({ email, sub: userId }: { email: string; sub: string }) {
     const logoutAccessToken = await this.cacheManager.get(this.accessToken);
-    const logoutRefreshToken = await this.cacheManager.get(this.refreshToken);
 
-    if (logoutAccessToken || logoutRefreshToken) {
+    if (logoutAccessToken) {
       throw new UnauthorizedException('만료된 토큰입니다.');
     }
     return { userId, email };
