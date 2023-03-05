@@ -6,7 +6,11 @@ import {
 
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from './entities/user.entity';
+import {
+  User,
+  UserProvider,
+  UserProviderPhoneNumber,
+} from './entities/user.entity';
 import { UserAddress } from './entities/userAddress.entity';
 import { UserProfile } from './entities/userProfile.entity';
 import * as bcrypt from 'bcrypt';
@@ -32,7 +36,7 @@ export class UserService {
   }
 
   // 트랜잭션 추가하기 ----
-  async signup(userSignUpInputDto: UserSignUpInputDto) {
+  async signupWithEmail(userSignUpInputDto: UserSignUpInputDto) {
     const {
       email,
       name,
@@ -73,6 +77,21 @@ export class UserService {
     });
 
     return new UserSignUpOutputDto(userSignUpInputDto);
+  }
+
+  async signupWithGoogle({ email, name, picture, password }) {
+    const user = await this.userRepository.save({
+      email,
+      password, // 사용할 수 없는 해시된 비밀번호 (오직 구글계정으로만 로그인)
+      provider: UserProvider.GOOGLE,
+    });
+    const userProfile = await this.userProfileRepository.save({
+      user,
+      name,
+      profileImageUrl: picture,
+      phoneNumber: UserProviderPhoneNumber.GOOGLE,
+    });
+    return user;
   }
 
   // 패스워드 해싱

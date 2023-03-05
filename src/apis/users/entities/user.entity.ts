@@ -20,9 +20,15 @@ export enum UserRole {
 }
 export enum UserProvider {
   EMAIL = 'email',
-  GOOGLE = 'googler',
+  GOOGLE = 'google',
   NAVER = 'naver',
   KAKAO = 'kakao',
+}
+export enum UserProviderPhoneNumber {
+  EMAIL = 'email',
+  GOOGLE = '01000000001',
+  NAVER = '01000000002',
+  KAKAO = '01000000003',
 }
 
 @Entity()

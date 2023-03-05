@@ -19,7 +19,7 @@ export class UserController {
   // @UseInterceptors(FileInterceptor('file'))
   // @ApiConsumes('multipart/form-data')
   async signup(@Body() userSignUpInputDto: UserSignUpInputDto) {
-    return this.userService.signup(userSignUpInputDto);
+    return this.userService.signupWithEmail(userSignUpInputDto);
   }
 
   @Post('/checkDuplicatedEmail')
@@ -27,8 +27,6 @@ export class UserController {
   // @UseInterceptors(FileInterceptor('file'))
   // @ApiConsumes('multipart/form-data')
   checkDuplicatedEmail(@Body() { email }: UserEmailInputDto) {
-    console.log(email);
-
     return this.userService.checkDuplicatedEmail({ email });
   }
 
@@ -39,8 +37,6 @@ export class UserController {
   @ApiOperation({ summary: '가드테스트' })
   @UseGuards(AuthGuard('access'))
   fetchUser(@CurrentUser() user) {
-    console.log(user);
-
     console.log('fetchuser되나?');
     return 'fsdfss';
   }

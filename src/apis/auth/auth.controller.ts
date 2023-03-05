@@ -1,12 +1,27 @@
-import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from '@src/commons/decorators/currentUser.decorator';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { UserService } from '../users/user.service';
 import { AuthService } from './auth.service';
 import { AuthSignInInputDto } from './dto/authSignIn.input.dto';
+
+interface IGoogleUser {
+  email: string;
+  name: string;
+  picture: string;
+  password: string;
+}
 
 @ApiTags('Auth')
 @Controller({ path: '' })
@@ -34,5 +49,26 @@ export class AuthController {
   @UseGuards(AuthGuard('refresh'))
   async restoreAccessToken(@CurrentUser() user) {
     return await this.authService.getAccessToken({ user });
+  }
+
+  @Get('/login/google')
+  @UseGuards(AuthGuard('google'))
+  async loginGoogle(
+    @Req() req: Request, //
+    @Res() res: Response,
+  ) {
+    const { email, ...rest } = req.user as IGoogleUser;
+    // 유저조회
+    let user = await this.userService.findUser({ email });
+    // 회원가입 처리
+    if (!user) {
+      user = await this.userService.signupWithGoogle({
+        email,
+        ...rest,
+      });
+    }
+    // 리프레시만 발급
+    this.authService.setRefreshToken({ user, res });
+    res.redirect('http://localhost:5500/front/test2.html');
   }
 }

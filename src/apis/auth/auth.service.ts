@@ -44,8 +44,8 @@ export class AuthService {
     this.createToken({ user, type: 'refresh', res });
   }
 
-  async createToken({ user, type, res }) {
-    const token = await this.jwtService.sign(
+  createToken({ user, type, res }) {
+    const token = this.jwtService.sign(
       {
         email: user.email, //
         sub: user.id,
