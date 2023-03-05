@@ -2,17 +2,17 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class UserSignUpInputDto {
   @ApiProperty({
-    description: 'useremail@example.com',
+    example: 'useremail@example.com',
   })
   readonly email: string;
 
   @ApiProperty({
-    description: 'Abcd1234!@',
+    example: 'Abcd1234!@',
   })
   readonly password: string;
 
   @ApiProperty({
-    description: '홍길동',
+    example: '홍길동',
   })
   readonly name: string;
 
@@ -27,24 +27,24 @@ export class UserSignUpInputDto {
   //파일 업로드는 따로 분리하기 이미지
 
   @ApiProperty({
-    description: '01012345678',
+    example: '01012345678',
   })
   readonly phoneNumber: string;
 
   @ApiProperty({
-    description: '12345',
+    example: '12345',
     required: false,
   })
   readonly zipcode: string;
 
   @ApiProperty({
-    description: '서울특별시 강남구 역삼동 123-45',
+    example: '서울특별시 강남구 역삼동 123-45',
     required: false,
   })
   readonly address: string;
 
   @ApiProperty({
-    description: 'xxx 아파트 123호',
+    example: 'xxx 아파트 123호',
     required: false,
   })
   readonly addressDetail: string;
